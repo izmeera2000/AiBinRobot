@@ -239,227 +239,24 @@ void setupWebServer()
 
 void handleRoot()
 {
-    String html = R"rawliteral(
-
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1">
-
-<title>Sistem Pengasingan Sampah AI</title>
-
-<style>
-
-body {
-    font-family: Arial, sans-serif;
-    background: #f2f5f7;
-    margin: 0;
-    padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    margin: auto;
-}
-
-h1 {
-    text-align: center;
-    color: #1b5e20;
-}
-
-.card {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    margin-top: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-}
-
-.label {
-    color: #666;
-    font-size: 14px;
-}
-
-.value {
-    font-size: 28px;
-    font-weight: bold;
-    margin-top: 5px;
-}
-
-.green {
-    color: #2e7d32;
-}
-
-.blue {
-    color: #1565c0;
-}
-
-.orange {
-    color: #ef6c00;
-}
-
-.status {
-    padding: 12px;
-    border-radius: 10px;
-    background: #e8f5e9;
-    color: #1b5e20;
-}
-
-.footer {
-    text-align: center;
-    margin-top: 20px;
-    color: #777;
-    font-size: 13px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<h1>♻️ Pengasingan Sampah AI</h1>
-
-<div class="card">
-
-<div class="label">
-OBJEK DIKESAN
-</div>
-
-<div id="trash"
-     class="value green">
-Menunggu...
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-KEYAKINAN AI
-</div>
-
-<div id="confidence"
-     class="value blue">
-0%
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-STATUS SISTEM
-</div>
-
-<div id="status"
-     class="status">
-Menunggu...
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-SERVO PENGASING
-</div>
-
-<div id="servo"
-     class="value orange">
-45°
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="label">
-IP ESP32
-</div>
-
-<div id="ip"
-     class="value">
--
-</div>
-
-</div>
-
-
-<div class="footer">
-
-ESP32-S3 + Edge Impulse<br>
-Sistem Pengasingan Sampah Automatik
-
-</div>
-
-</div>
-
-
-<script>
-
-function updateStatus()
-{
-
-    fetch('/status')
-
-    .then(response => response.json())
-
-    .then(data =>
-    {
-
-        document.getElementById("trash")
-            .innerHTML = data.trash;
-
-        document.getElementById("confidence")
-            .innerHTML = data.confidence + "%";
-
-        document.getElementById("status")
-            .innerHTML = data.status;
-
-        document.getElementById("servo")
-            .innerHTML = data.servo_angle + "°";
-
-        document.getElementById("ip")
-            .innerHTML = data.ip;
-
-    })
-
-    .catch(error =>
-    {
-        document.getElementById("status")
-            .innerHTML = "ESP32 tidak dapat dihubungi";
-    });
-
-}
-
-
-// Update setiap 2 saat
-
-setInterval(updateStatus, 2000);
-
-updateStatus();
-
-</script>
-
-</body>
-
-</html>
-
-)rawliteral";
+    String html =
+        "<html>"
+        "<head>"
+        "<meta name='viewport' content='width=device-width'>"
+        "<meta http-equiv='refresh' content='2'>"
+        "</head>"
+        "<body>"
+        "<h1>Pengasingan Sampah AI</h1>"
+        "<p>Objek: " + webDetectedTrash + "</p>"
+        "<p>Confidence: " + String(webConfidence, 1) + "%</p>"
+        "<p>Status: " + webStatus + "</p>"
+        "<p>Servo: " + String(webServoAngle) + " deg</p>"
+        "</body>"
+        "</html>";
 
     server.send(200, "text/html", html);
 }
+
 
 
 // =====================================================
